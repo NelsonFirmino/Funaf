@@ -1,0 +1,20 @@
+﻿using DBBroker.Engine;
+using Funaf.Domain.Module.Lancamentos.Dominio;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+
+namespace Funaf.Domain.Module.Lancamentos.Persistencia
+{
+    public class DBReportDeclaradoRecolhimentoTotal : DBBroker<ReportDeclaradoRecolhimentoTotal>
+    {
+        public static List<ReportDeclaradoRecolhimentoTotal> RecuperarItens(int nuAno)
+        {
+            var parametros = new List<DbParameter>();
+            parametros.Add(new SqlParameter("@Ano", nuAno));
+
+            return ExecCmdSQL("dbo.usp_ReportDeclaracaoArrecadacaoTotal", parametros, CommandType.StoredProcedure);
+        }
+    }
+}

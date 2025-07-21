@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.pge.rn.gov.br/sigues" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.pge.rn.gov.br/sigues" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sistema Gerenciamento de Usuários e Senhas 
+ Esta plataforma tem como papel fundamental de controle de acessos ao sistemas desenvolvidos na PGE. 
+ Também é responsável pelo controle de auditoria dos sistemas integrado ao SiGUeS</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.pge.rn.gov.br/sigues">
+      <s:element name="AcaoProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="acao" type="tns:Acao" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Acao">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfAcao">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="txAcao" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfAcao" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfAcao" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAcao">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Acao" nillable="true" type="tns:Acao" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AcaoProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AcaoProcessarResult" type="tns:Acao" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuditoriaProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="auditoria" type="tns:Auditoria" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Auditoria">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfAuditoria">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Permissao" type="tns:Permissao" />
+              <s:element minOccurs="0" maxOccurs="1" name="Serventia" type="tns:Serventia" />
+              <s:element minOccurs="0" maxOccurs="1" name="Sistema" type="tns:Sistema" />
+              <s:element minOccurs="0" maxOccurs="1" name="txIp" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfAuditoria" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfAuditoria" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAuditoria">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Auditoria" nillable="true" type="tns:Auditoria" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Permissao">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfPermissao">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Acao" type="tns:Acao" />
+              <s:element minOccurs="0" maxOccurs="1" name="Relacionamento" type="tns:Relacionamento" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfPermissao" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfPermissao" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPermissao">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Permissao" nillable="true" type="tns:Permissao" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Relacionamento">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfRelacionamento">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="txRelacionamento" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfRelacionamento" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfRelacionamento" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfRelacionamento">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Relacionamento" nillable="true" type="tns:Relacionamento" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Serventia">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfServentia">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Token" type="tns:TokenAuth" />
+              <s:element minOccurs="0" maxOccurs="1" name="guId" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Status" type="tns:Status" />
+              <s:element minOccurs="0" maxOccurs="1" name="Orgao" type="tns:Orgao" />
+              <s:element minOccurs="0" maxOccurs="1" name="Setor" type="tns:Setor" />
+              <s:element minOccurs="0" maxOccurs="1" name="Perfil" type="tns:Perfil" />
+              <s:element minOccurs="0" maxOccurs="1" name="guIdSetor" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txServentia" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txContraSenha" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txMatricula" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txNome" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txObservacoes" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txEmail" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txTelefone" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txIpCadastro" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="isAD" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="dtValidacao" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="dtAcesso" nillable="true" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfServentia" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfServentia" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfServentia">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Serventia" nillable="true" type="tns:Serventia" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TokenAuth">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfTokenAuth">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="txLogin" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txSenha" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="idSistema" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfTokenAuth" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfTokenAuth" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTokenAuth">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TokenAuth" nillable="true" type="tns:TokenAuth" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Status">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfStatus">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="txStatus" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfStatus" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfStatus" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Status" nillable="true" type="tns:Status" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Orgao">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfOrgao">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="txOrgao" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfOrgao" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfOrgao" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfOrgao">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Orgao" nillable="true" type="tns:Orgao" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Setor">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfSetor">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Orgao" type="tns:Orgao" />
+              <s:element minOccurs="0" maxOccurs="1" name="guIdADSetor" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txSetor" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfSetor" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfSetor" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSetor">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Setor" nillable="true" type="tns:Setor" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Perfil">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfPerfil">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="txPerfil" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="idServentia" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="idSistema" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfPerfil" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfPerfil" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPerfil">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Perfil" nillable="true" type="tns:Perfil" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Sistema">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BusinessObjectOfSistema">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="txSistema" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="txSigla" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Status" type="tns:Status" />
+              <s:element minOccurs="0" maxOccurs="1" name="txDescricao" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BusinessObjectOfSistema" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mensagem" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="nuInstrucao" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isSucessfull" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="dtCadastro" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="txValidacao" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lsTodos" type="tns:ArrayOfSistema" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSistema">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Sistema" nillable="true" type="tns:Sistema" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AuditoriaProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AuditoriaProcessarResult" type="tns:Auditoria" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OrgaoProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Orgao" type="tns:Orgao" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OrgaoProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OrgaoProcessarResult" type="tns:Orgao" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PerfilProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="perfil" type="tns:Perfil" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PerfilProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PerfilProcessarResult" type="tns:Perfil" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PermissaoProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="permissao" type="tns:Permissao" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PermissaoProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PermissaoProcessarResult" type="tns:Permissao" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RelacionamentoProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="relacionamento" type="tns:Relacionamento" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RelacionamentoProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RelacionamentoProcessarResult" type="tns:Relacionamento" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetorProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Setor" type="tns:Setor" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetorProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SetorProcessarResult" type="tns:Setor" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SistemaProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sistema" type="tns:Sistema" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SistemaProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SistemaProcessarResult" type="tns:Sistema" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StatusProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="status" type="tns:Status" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="StatusProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StatusProcessarResult" type="tns:Status" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ServentiaProcessar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Serventia" type="tns:Serventia" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ServentiaProcessarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ServentiaProcessarResult" type="tns:Serventia" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AcaoProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:AcaoProcessar" />
+  </wsdl:message>
+  <wsdl:message name="AcaoProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:AcaoProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="AuditoriaProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:AuditoriaProcessar" />
+  </wsdl:message>
+  <wsdl:message name="AuditoriaProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:AuditoriaProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="OrgaoProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:OrgaoProcessar" />
+  </wsdl:message>
+  <wsdl:message name="OrgaoProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:OrgaoProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="PerfilProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:PerfilProcessar" />
+  </wsdl:message>
+  <wsdl:message name="PerfilProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:PerfilProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="PermissaoProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:PermissaoProcessar" />
+  </wsdl:message>
+  <wsdl:message name="PermissaoProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:PermissaoProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="RelacionamentoProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:RelacionamentoProcessar" />
+  </wsdl:message>
+  <wsdl:message name="RelacionamentoProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:RelacionamentoProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetorProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:SetorProcessar" />
+  </wsdl:message>
+  <wsdl:message name="SetorProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:SetorProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="SistemaProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:SistemaProcessar" />
+  </wsdl:message>
+  <wsdl:message name="SistemaProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:SistemaProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="StatusProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:StatusProcessar" />
+  </wsdl:message>
+  <wsdl:message name="StatusProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:StatusProcessarResponse" />
+  </wsdl:message>
+  <wsdl:message name="ServentiaProcessarSoapIn">
+    <wsdl:part name="parameters" element="tns:ServentiaProcessar" />
+  </wsdl:message>
+  <wsdl:message name="ServentiaProcessarSoapOut">
+    <wsdl:part name="parameters" element="tns:ServentiaProcessarResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WsSiGUeSSoap">
+    <wsdl:operation name="AcaoProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Acao no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:AcaoProcessarSoapIn" />
+      <wsdl:output message="tns:AcaoProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AuditoriaProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Auditoria no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:AuditoriaProcessarSoapIn" />
+      <wsdl:output message="tns:AuditoriaProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OrgaoProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Orgao no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:OrgaoProcessarSoapIn" />
+      <wsdl:output message="tns:OrgaoProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PerfilProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Perfil no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:PerfilProcessarSoapIn" />
+      <wsdl:output message="tns:PerfilProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PermissaoProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Permissao no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:PermissaoProcessarSoapIn" />
+      <wsdl:output message="tns:PermissaoProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RelacionamentoProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Relacionamento no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:RelacionamentoProcessarSoapIn" />
+      <wsdl:output message="tns:RelacionamentoProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetorProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Setor no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:SetorProcessarSoapIn" />
+      <wsdl:output message="tns:SetorProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SistemaProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Sistema no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:SistemaProcessarSoapIn" />
+      <wsdl:output message="tns:SistemaProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="StatusProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Status no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:StatusProcessarSoapIn" />
+      <wsdl:output message="tns:StatusProcessarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ServentiaProcessar">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Este método trata todas as requisições e processamento de informações referente a entidade Serventia no sistema.</wsdl:documentation>
+      <wsdl:input message="tns:ServentiaProcessarSoapIn" />
+      <wsdl:output message="tns:ServentiaProcessarSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WsSiGUeSSoap" type="tns:WsSiGUeSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AcaoProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/AcaoProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuditoriaProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/AuditoriaProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OrgaoProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/OrgaoProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PerfilProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/PerfilProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PermissaoProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/PermissaoProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RelacionamentoProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/RelacionamentoProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetorProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/SetorProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SistemaProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/SistemaProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StatusProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/StatusProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServentiaProcessar">
+      <soap:operation soapAction="http://www.pge.rn.gov.br/sigues/ServentiaProcessar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WsSiGUeSSoap12" type="tns:WsSiGUeSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AcaoProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/AcaoProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AuditoriaProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/AuditoriaProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OrgaoProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/OrgaoProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PerfilProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/PerfilProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PermissaoProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/PermissaoProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RelacionamentoProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/RelacionamentoProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetorProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/SetorProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SistemaProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/SistemaProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StatusProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/StatusProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServentiaProcessar">
+      <soap12:operation soapAction="http://www.pge.rn.gov.br/sigues/ServentiaProcessar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WsSiGUeS">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Sistema Gerenciamento de Usuários e Senhas 
+ Esta plataforma tem como papel fundamental de controle de acessos ao sistemas desenvolvidos na PGE. 
+ Também é responsável pelo controle de auditoria dos sistemas integrado ao SiGUeS</wsdl:documentation>
+    <wsdl:port name="WsSiGUeSSoap" binding="tns:WsSiGUeSSoap">
+      <soap:address location="http://nucleo/wssigues/wssigues.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WsSiGUeSSoap12" binding="tns:WsSiGUeSSoap12">
+      <soap12:address location="http://nucleo/wssigues/wssigues.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,49 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PGEDBAgent.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PathToWatch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\PGEDBAgent2</Value>
+    </Setting>
+    <Setting Name="HorarioProcessamento" Type="System.String" Scope="User">
+      <Value Profile="(Default)">06:00</Value>
+    </Setting>
+    <Setting Name="ExtensoesParaTratar" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;.c279452&lt;/string&gt;
+  &lt;string&gt;.c221534&lt;/string&gt;
+  &lt;string&gt;.c2815189&lt;/string&gt;
+  &lt;string&gt;.c37950000005480&lt;/string&gt;
+  &lt;string&gt;.c37950000005011&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DiretoriosParaDownload" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;retorno/&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="DiretoriosParaUpload" Type="System.String" Scope="User">
+      <Value Profile="(Default)">remessa/</Value>
+    </Setting>
+    <Setting Name="AppConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Data Source=10.104.13.8;Initial Catalog=pge;Persist Security Info=True;User ID=sa;Password=admin!Q@W#E&lt;/ConnectionString&gt;
+		  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+		  &lt;/SerializableConnectionString&gt;
+	  </DesignTimeValue>
+	  <Value Profile="(Default)">Data Source=10.104.13.8;Initial Catalog=pge;Persist Security Info=True;User ID=sa;Password=admin!Q@W#E</Value>
+    </Setting>
+    <Setting Name="FTPSenha" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1QAw3edr5</Value>
+    </Setting>
+    <Setting Name="FTPHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ftp://ftp.liketecnologia.net/</Value>
+    </Setting>
+    <Setting Name="FTPLogin" Type="System.String" Scope="User">
+      <Value Profile="(Default)">like</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
